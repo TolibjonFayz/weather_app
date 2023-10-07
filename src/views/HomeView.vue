@@ -12,13 +12,19 @@
         class="absolute bg-wether-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
         v-if="mapBoxSearchResults"
       >
-        <li
-          v-for="searchResult in mapBoxSearchResults"
-          :key="searchResult.id"
-          class="py-2 cursor-pointer"
-        >
-          {{ searchResult.place_name }}
-        </li>
+        <p v-if="searchError">Sorry, something went wrong, please try again.</p>
+        <p v-if="!serverError && mapBoxSearchResults.length === 0">
+          No results match your query, try a different term.
+        </p>
+        <template v-else>
+          <li
+            v-for="searchResult in mapBoxSearchResults"
+            :key="searchResult.id"
+            class="py-2 cursor-pointer"
+          >
+            {{ searchResult.place_name }}
+          </li>
+        </template>
       </ul>
     </div>
   </main>
@@ -33,16 +39,20 @@ const mapboxAPIKey =
 const searchQuery = ref("");
 const queryTimeout = ref(null);
 const mapBoxSearchResults = ref(null);
+const searchError = ref(null);
 
 const getSearchResults = () => {
   clearTimeout(queryTimeout.value);
   queryTimeout.value = setTimeout(async () => {
     if (searchQuery.value !== "") {
-      const result = await axios.get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapboxAPIKey}&types=place`
-      );
-      mapBoxSearchResults.value = result.data.features;
-      console.log(mapBoxSearchResults.value);
+      try {
+        const result = await axios.get(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapboxAPIKey}&types=place`
+        );
+        mapBoxSearchResults.value = result.data.features;
+      } catch (error) {
+        searchError.value = true;
+      }
       return;
     }
     mapBoxSearchResults.value = null;
