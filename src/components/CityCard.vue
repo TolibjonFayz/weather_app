@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex py-6 px-3 bg-wether-secondary rounded-md shadow-md cursor-pointer"
+    class="flex py-6 px-3 bg-wether-secondary rounded-md shadow-md cursor-pointer text-black"
   >
     <div class="flex flex-col flex-1">
       <h2 class="text-3xl">{{ city.city }}</h2>

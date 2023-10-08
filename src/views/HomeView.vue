@@ -20,7 +20,7 @@
           <li
             v-for="searchResult in mapBoxSearchResults"
             :key="searchResult.id"
-            class="py-2 cursor-pointer"
+            class="py-2 cursor-pointer text-black"
             @click="previewCity(searchResult)"
           >
             {{ searchResult.place_name }}
