@@ -2,9 +2,7 @@
   <div>
     <Suspense>
       <AsyncCityView />
-      <template #fallback>
-        <p>Loading...</p>
-      </template>
+      <template #fallback> Loading... </template>
     </Suspense>
   </div>
 </template>
