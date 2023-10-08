@@ -2,11 +2,14 @@
   <div>
     <Suspense>
       <AsyncCityView />
-      <template #fallback> Loading... </template>
+      <template #fallback>
+        <CityViewSceleton />
+      </template>
     </Suspense>
   </div>
 </template>
 
 <script setup>
 import AsyncCityView from "../components/AsyncCityView.vue";
+import CityViewSceleton from "../components/CityViewSceleton.vue";
 </script>
